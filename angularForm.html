@@ -5,26 +5,7 @@
     <title>angularForm</title>
     <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="lib/font-awesome-4.7.0/css/font-awesome.css">
-    <style type="text/css">
-        .error {
-            color: #a10;
-        }
-
-        .wrapper {
-            margin: 50px auto;
-            width: 400px;
-        }
-
-        .input-result {
-            position: relative;
-            top: -27px;
-            left: 366px;
-        }
-
-        p.success {
-            color: #3c763d;
-        }
-    </style>
+    <link rel="stylesheet" href="css/signForm.css">
 </head>
 <body ng-app="myApp" ng-controller="SignUpController">
     <div class="wrapper">
@@ -72,30 +53,6 @@
         </form>
     </div>
     <script type="text/javascript" src="lib/angular/js/angular.min.js"></script>
-    <script type="text/javascript">
-        angular.module('myApp', [])
-            .controller("SignUpController", function ($scope) {
-                $scope.userData = {};
-                $scope.submitForm = function () {
-                };
-            })
-            .directive("compare", function () {
-                var original = {};
-                original.strict = "AE";
-                original.scope = {
-                    originalText: "=compare"
-                };
-                original.require = "ngModel";
-                original.link = function (sco, ele, att, con) {
-                    con.$validators.compare = function (val) {
-                        return val == sco.originalText;
-                    };
-                    sco.$watch("originalText", function () {
-                        con.$validate();
-                    })
-                };
-                return original
-            })
-    </script>
+    <script type="text/javascript" src="js/signForm.js"></script>
 </body>
 </html>

@@ -1,0 +1,18 @@
+.error {
+    color: #a10;
+}
+
+.wrapper {
+    margin: 50px auto;
+    width: 400px;
+}
+
+.input-result {
+    position: relative;
+    top: -27px;
+    left: 366px;
+}
+
+p.success {
+    color: #3c763d;
+}
