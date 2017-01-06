@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>angularForm</title>
+    <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="lib/font-awesome-4.7.0/css/font-awesome.css">
+    <style type="text/css">
+        .error {
+            color: #a10;
+        }
+
+        .wrapper {
+            margin: 50px auto;
+            width: 400px;
+        }
+
+        .input-result {
+            position: relative;
+            top: -27px;
+            left: 366px;
+        }
+
+        p.success {
+            color: #3c763d;
+        }
+    </style>
+</head>
+<body ng-app="myApp" ng-controller="SignUpController">
+    <div class="wrapper">
+        <h2>注册</h2>
+        <form name="signUpForm" ng-submit="submitForm()">
+            <div class="form-group" ng-class="{'has-success':signUpForm.userName.$valid}">
+                <label>用户名:</label>
+                <input type="text" name="userName" class="form-control"
+                ng-model="userData.userName" required minlength="4" maxlength="15">
+                <p class="fa fa-check input-result success" ng-if="signUpForm.userName.$valid"></p>
+                <p class="error" ng-if="(signUpForm.userName.$error.minlength ||
+                signUpForm.userName.$error.maxlength) && signUpForm.userName.$touched">
+                    用户名长度应在4至15位之间
+                </p>
+                <p class="error" ng-if="signUpForm.userName.$error.required
+                && signUpForm.userName.$touched">
+                    请输入用户名
+                </p>
+            </div>
+            <div class="form-group" ng-class="{'has-success':signUpForm.password.$valid}">
+                <label>密码:</label>
+                <input type="password" name="password" class="form-control"
+                ng-model="userData.password" required minlength="6" maxlength="15">
+                <p class="fa fa-check input-result success" ng-if="signUpForm.password.$valid"></p>
+                <p class="error" ng-if="signUpForm.password.$error.required && signUpForm.password.$touched">
+                    请设置密码
+                </p>
+                <p class="error" ng-if="(signUpForm.password.$error.minlength ||
+                signUpForm.password.$error.maxlength) &&signUpForm.password.$touched">
+                    密码的长度应在6至15位之间
+                </p>
+            </div>
+            <div class="form-group" ng-class="{'has-success':signUpForm.password1.$valid}">
+                <label>确认密码:</label>
+                <input type="password" name="password1" class="form-control"
+                ng-model="userData.password1" required compare="userData.password">
+                <p class="fa fa-check input-result success" ng-if="signUpForm.password1.$valid"></p>
+                <p class="error" ng-if="signUpForm.password1.$error.compare && signUpForm.password1.$touched">
+                    两次输入的密码不一致
+                </p>
+            </div>
+            <div class="form-group">
+                <button type="submit" ng-disabled="signUpForm.$invalid" class="btn btn-primary">注册</button>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="lib/angular/js/angular.min.js"></script>
+    <script type="text/javascript">
+        angular.module('myApp', [])
+            .controller("SignUpController", function ($scope) {
+                $scope.userData = {};
+                $scope.submitForm = function () {
+                };
+            })
+            .directive("compare", function () {
+                var original = {};
+                original.strict = "AE";
+                original.scope = {
+                    originalText: "=compare"
+                };
+                original.require = "ngModel";
+                original.link = function (sco, ele, att, con) {
+                    con.$validators.compare = function (val) {
+                        return val == sco.originalText;
+                    };
+                    sco.$watch("originalText", function () {
+                        con.$validate();
+                    })
+                };
+                return original
+            })
+    </script>
+</body>
+</html>
